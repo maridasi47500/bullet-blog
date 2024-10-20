@@ -1,0 +1,47 @@
+<%= form_with(model: post) do |form| %>
+  <% if post.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+
+      <ul>
+        <% post.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :content, style: "display: block" %>
+    <%= form.text_field :content %>
+  </div>
+
+  <div>
+    <%= form.label :thumbnail_url, style: "display: block" %>
+    <%= form.text_field :thumbnail_url %>
+  </div>
+
+  <div>
+    <%= form.label :background_url, style: "display: block" %>
+    <%= form.text_field :background_url %>
+  </div>
+
+  <div>
+    <%= form.label :author_id, style: "display: block" %>
+    <%= form.number_field :author_id %>
+  </div>
+
+  <div>
+    <%= form.label :category_id, style: "display: block" %>
+    <%= form.number_field :category_id %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

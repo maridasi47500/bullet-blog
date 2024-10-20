@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- app/views/posts/index.html.erb -->
+<div class="container mt-5">
+  <div class="row">
+    <% @posts.each do |post| %>
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm">
+          <img class="card-img-top" src="<%= post.thumbnail_url %>" alt="<%= post.title %>">
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to post.title, post_path(post) %></h5>
+            <p class="card-text"><%= truncate(post.content, length: 100) %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <%= paginate @posts %>
+</div>
+

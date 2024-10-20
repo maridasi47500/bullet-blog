@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<!-- app/views/posts/show.html.erb -->
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mb-4 shadow-sm">
+        <div class="card-body" style="background-image: url('<%= @post.background_url %>'); background-size: cover;">
+          <h1 class="card-title"><%= @post.title %></h1>
+          <p class="card-text"><%= @post.content %></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
