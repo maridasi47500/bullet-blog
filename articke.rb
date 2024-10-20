@@ -137,6 +137,7 @@ def scrape_category_page(category_name, url)
   #parsed_page = Nokogiri::HTML(response)
   agent = Mechanize.new
   page = agent.get(url)
+  @author=Author.find_or_create_by(name:"cleo jeanne")
 
   page.search('.post').each do |post|
     title = post.at('.entry-title').text.strip
@@ -163,13 +164,9 @@ def scrape_category_page(category_name, url)
 
 
     category = Category.find_or_create_by(name: category_name)
-    Post.create(
-      category_id: category.id,
-      title: title,
-      content: content,
-      thumbnail_url: thumbnail_url,
-      background_url: background_url
-    )
+    p category
+    x=Post.find_or_create_by({      category_id: category.id,  author_id:@author.id,    title: title,      content: content,      thumbnail_url: thumbnail_url,      background_url: background_url})
+    p x.errors
 
     # Debugging output
     puts "Category: #{category_name}"
@@ -178,7 +175,11 @@ def scrape_category_page(category_name, url)
     puts "Background URL: #{background_url}"
     puts "Content: #{content[0..50]}..."  # Truncate for preview
     puts "-------------------"
+  rescue => e
+    p e.message
   end
+rescue => e
+  p e.message
 end
 
 category_urls.each do |category_name, base_url|
@@ -189,7 +190,11 @@ category_urls.each do |category_name, base_url|
   (2..10).each do |page_number|
     paginated_url = "#{base_url}page/#{page_number}/"
     scrape_category_page(category_name, paginated_url)
+  rescue => e
+    p e.message
   end
+rescue => e
+  p e.message
 end
 
 puts "Scraping completed and data stored successfully!"
