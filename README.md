@@ -99,6 +99,7 @@ Utilisation de Logiciels de Virtualisation: Ce type de logiciel permet de tester
 
 
 
+
 Classes de Performeurs
 Il y a des classes spécifiques qui relèvent des catégories d'artistes mentionnés ci-dessus. Ceux-ci comprennent :
 
@@ -133,6 +134,41 @@ Certains artistes sont motivés par la volonté de transmettre un message social
 Plaisir et Divertissement
 
 Pour d'autres, la motivation est simplement le plaisir et le divertissement. Ils trouvent de la joie dans le processus créatif et dans le fait de divertir et d'amuser leur public.
+Chapitre 8: Organiser et Préparer une Performance Artistique
+Lorsque vous préparez vos performances, commencez par un seul aspect ou une seule partie de votre spectacle, de préférence celle qui a le plus besoin d'attention. De cette façon, vous pouvez les traiter une à la fois jusqu'à ce que tout soit prêt. Si vous n'êtes pas sûr de par où commencer, posez-vous ces questions :
+
+Si ma performance faisait l'objet d'une critique, quelle partie de la performance causerait le plus de problèmes ou entraînerait la perte de l'intérêt du public ?
+
+Quelle partie de votre performance est la plus vulnérable à des erreurs ou des oublis ?
+
+Quelles parties de votre performance ne sont pas bien documentées ou sont rarement vérifiées ? Combien de ces aspects connaissez-vous vraiment bien ?
+
+Si vous pouvez répondre à ces questions, vous pouvez commencer à faire une liste des aspects et des éléments de votre performance qui, selon vous, devraient être vérifiés. Prenez beaucoup de notes pendant que vous faites cela pour que vous puissiez garder tout en ordre. Vous devrez également documenter les problèmes que vous rencontrez afin qu'ils puissent être corrigés.
+
+Organisez votre Projet
+Maintenant que vous avez votre liste, il est temps de vous assurer que tout est couvert. Vous allez vouloir tout tester dans votre performance, y compris les éléments matériels, pour qu'ils ne soient pas vulnérables aux erreurs. Cela inclut :
+
+Accessoires et Équipements : Assurez-vous que tous les accessoires et équipements sont en bon état de fonctionnement.
+
+Costumes et Maquillage : Vérifiez que tous les costumes sont prêts et que le maquillage est approprié pour la performance.
+
+Systèmes de Son et Lumière : Testez les systèmes de son et de lumière pour vous assurer qu'ils fonctionnent correctement.
+
+Scénographie : Assurez-vous que la scénographie est bien installée et sécurisée.
+
+Scripts et Partitions : Vérifiez que tous les scripts et partitions sont complets et accessibles.
+
+Communication : Assurez-vous que tous les membres de l'équipe sont bien informés et coordonnés.
+
+Il va y avoir beaucoup de tests effectués au cours de ce processus, mais cela garantira que tout est vérifié et que, s'il y a des vulnérabilités, vous les trouverez. Plus il y a d'éléments et de systèmes à vérifier, plus vous aurez besoin de temps pour organiser votre projet.
+
+Quand devriez-vous Répéter ?
+Une des plus grandes questions que les artistes se posent est quand est le meilleur moment pour répéter pour obtenir les meilleurs résultats sans déranger les autres membres de l'équipe. Si vous faites cela chez vous, alors tout moment qui vous convient fonctionne, mais si vous êtes sur une scène où il y a beaucoup d'autres utilisateurs accédant aux équipements, réfléchissez bien quand vous allez répéter. Vous ne voulez pas causer de perturbations à la manière dont une production fonctionne, alors évitez les moments occupés.
+
+Combien de votre Performance est Visible aux Autres ?
+Vous êtes maintenant prêt à répéter. La première chose que vous devez faire est de savoir ce que les autres peuvent voir de votre performance. Les bons artistes recherchent les réactions du public avant de performer, recherchant des informations personnelles qui peuvent être vulnérables. Si vous possédez la performance, vous pouvez sauter certaines de ces parties, mais vous aurez besoin d'examiner votre performance de manière critique.
+
+
 
 
 Connexion Réseau et Performance Scénique
