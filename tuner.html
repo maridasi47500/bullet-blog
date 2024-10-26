@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Accordeur pour Violon</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+        .note {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            margin: 10px;
+            color: #333;
+        }
+        .in-tune { background-color: #4caf50; } /* Green */
+        .almost-there { background-color: #ffeb3b; } /* Yellow */
+        .out-of-tune { background-color: #f44336; } /* Red */
+    </style>
+</head>
+<body>
+    <div id="tuner">
+        <div class="note" id="note">----</div>
+        <div id="frequency">---- Hz</div>
+        <div id="status">Régler à --</div>
+    </div>
+    <script>
+        navigator.mediaDevices.getUserMedia({ audio: true }).then((stream) => {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const mediaStreamSource = audioContext.createMediaStreamSource(stream);
+            const analyser = audioContext.createAnalyser();
+            analyser.fftSize = 2048;
+            mediaStreamSource.connect(analyser);
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+            const targetFrequencies = {
+                'G': 196,
+                'D': 293.66,
+                'A': 440,
+                'E': 659.25
+            };
+            let frequencyBuffer = [];
+            const bufferSize = 10;
+            let lastUpdateTime = 0;
+
+            function autoCorrelate(buffer) {
+                let SIZE = buffer.length;
+                let rms = 0;
+                for (let i = 0; i < SIZE; i++) {
+                    let val = buffer[i];
+                    rms += val * val;
+                }
+                rms = Math.sqrt(rms / SIZE);
+                if (rms < 0.01) return -1;
+                let r1 = 0, r2 = SIZE - 1, thres = 0.2;
+                for (let i = 0; i < SIZE / 2; i++) {
+                    if (Math.abs(buffer[i]) < thres) {
+                        r1 = i;
+                        break;
+                    }
+                }
+                for (let i = 1; i < SIZE / 2; i++) {
+                    if (Math.abs(buffer[SIZE - i]) < thres) {
+                        r2 = SIZE - i;
+                        break;
+                    }
+                }
+                buffer = buffer.slice(r1, r2);
+                SIZE = buffer.length;
+                let c = new Array(SIZE).fill(0);
+                for (let i = 0; i < SIZE; i++) {
+                    for (let j = 0; j < SIZE - i; j++) {
+                        c[i] = c[i] + buffer[j] * buffer[j + i];
+                    }
+                }
+                let d = 0;
+                while (c[d] > c[d + 1]) d++;
+                let maxval = -1, maxpos = -1;
+                for (let i = d; i < SIZE; i++) {
+                    if (c[i] > maxval) {
+                        maxval = c[i];
+                        maxpos = i;
+                    }
+                }
+                let T0 = maxpos;
+                let x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
+                let a = (x1 + x3 - 2 * x2) / 2;
+                let b = (x3 - x1) / 2;
+                if (a) T0 = T0 - b / (2 * a);
+                return audioContext.sampleRate / T0;
+            }
+
+            function updatePitch() {
+                analyser.getByteTimeDomainData(dataArray);
+                const ac = autoCorrelate(dataArray);
+                if (ac !== -1) {
+                    const pitch = ac;
+                    frequencyBuffer.push(pitch);
+                    if (frequencyBuffer.length > bufferSize) {
+                        frequencyBuffer.shift();
+                    }
+                    const averageFrequency = frequencyBuffer.reduce((a, b) => a + b) / frequencyBuffer.length;
+                    const frequency = averageFrequency.toFixed(2);
+                    console.log(frequency);
+                    
+                    // Special condition for 43.15 Hz
+                    if (Math.abs(frequency - 43.15) < 1) {
+                        console.log("43.15 Hz detected! Doing nothing.");
+                        return;
+                    }
+
+                    const currentTime = Date.now();
+                    if (currentTime - lastUpdateTime > 500) {  // 0.5 second delay
+                        let noteName, targetFrequency;
+                        if (averageFrequency > 554.37) { // above C#5
+                            noteName = 'E';
+                            targetFrequency = 659.25;
+                        } else if (averageFrequency > 370) { // between F#4 and C#5
+                            noteName = 'A';
+                            targetFrequency = 440;
+                        } else if (averageFrequency > 233.08) { // between B3 and F#4
+                            noteName = 'D';
+                            targetFrequency = 293.66;
+                        } else { // below B3
+                            noteName = 'G';
+                            targetFrequency = 196;
+                        }
+                        document.getElementById('note').textContent = noteName;
+                        document.getElementById('note').className = 'note';
+                        if (Math.abs(frequency - targetFrequency) < 5) {
+                            document.getElementById('note').classList.add('in-tune');
+                            document.getElementById('status').textContent = 'Réglage terminé';
+                        } else if (Math.abs(frequency - targetFrequency) < 20) {
+                            document.getElementById('note').classList.add('almost-there');
+                            document.getElementById('status').textContent = `Régler à ${frequency > targetFrequency ? 'la baisse' : 'la hausse'}`;
+                        } else {
+                            document.getElementById('note').classList.add('out-of-tune');
+                            document.getElementById('status').textContent = `Régler à ${frequency > targetFrequency ? 'la baisse' : 'la hausse'}`;
+                        }
+                        lastUpdateTime = currentTime;
+                    }
+                }
+            }
+
+            function addEchoEffect() {
+                const delayTime = 10; // 0.5 second
+                let echoBuffer = [];
+                setInterval(() => {
+                    analyser.getByteTimeDomainData(dataArray);
+                    echoBuffer.push(new Uint8Array(dataArray));
+                    if (echoBuffer.length > bufferSize) {
+                        echoBuffer.shift();
+                    }
+                    let averagedArray = new Uint8Array(bufferLength);
+                    for (let i = 0; i < bufferLength; i++) {
+                        averagedArray[i] = echoBuffer.reduce((sum, array) => sum + array[i], 0) / echoBuffer.length;
+                    }
+                    for (let i = 0; i < bufferLength; i++) {
+                        dataArray[i] = averagedArray[i];
+                    }
+                    updatePitch();
+                }, delayTime);
+            }
+
+            addEchoEffect();
+        });
+    </script>
+</body>
+</html>
