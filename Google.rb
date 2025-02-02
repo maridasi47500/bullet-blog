@@ -88,7 +88,7 @@ def scrape_category_page(category_name, url)
 
   page.search('.post').each do |post|
     title = post.at('.entry-title').text.strip
-
+    post_url = post.at('.entry-title a')&.attr('href')
 
 
     @driver.get(post_url)
